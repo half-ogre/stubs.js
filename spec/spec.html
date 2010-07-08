@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../jquery-1.4.2.js"></script>
+    <script src="qunit.js"></script>
+    <script src="../stubs.js"></script>
+    <link rel="stylesheet" href="qunit.css" type="text/css" />
+    <script>
+      function aFunction(anArg) {
+        return "theFunction";
+      }
+      
+      var aVariable = "theVariable";
+      
+      var anObject = {
+        aProperty: "theProperty"
+      };
+        
+      $(document).ready(function(){
+        // Cmt+Opt+5 is your friend in TextMate
+        
+        (function() {
+          module("the Stubs.add method", { teardown: function() { Stubs.removeAll(); } });
+          test("will stub a function", function() {
+            Stubs.add("aFunction", function() { return "theStub"; });
+
+            actual = aFunction();
+
+            equals(actual, "theStub");
+          });
+          test("will pass function arguments to stub function", function() {
+            Stubs.add("aFunction", function(anArg) { return anArg; });
+
+            actual = aFunction("theArg");
+
+            equals(actual, "theArg");
+          });
+          test("will stub a variable", function() {
+            Stubs.add("aVariable", "theStub");
+
+            actual = aVariable;
+
+            equals(actual, "theStub");
+          });
+          test("will stub an object's property", function() {
+            Stubs.add("anObject.aProperty", "theStub");
+
+            actual = anObject.aProperty;
+
+            equals(actual, "theStub");
+          });
+        })();
+             
+        (function() {
+          module("the Stubs.removeAll method");
+          test ("will restore the original function of a stubbed function", function() {
+            Stubs.add("aFunction", function() { return "theStub"; });
+
+            Stubs.removeAll();
+
+            equals(aFunction(), "theFunction");
+          });
+          test("will restore the original value of a variable", function() {
+            Stubs.add("aVariable", "theStub");
+
+            Stubs.removeAll();
+
+            equals(aVariable, "theVariable");
+          });
+          test("will restore the original value of an object's property", function() {
+            Stubs.add("anObject.aProperty", "theStub");
+
+            Stubs.removeAll();
+
+            equals(anObject.aProperty, "theProperty");
+          });
+        })();
+                
+      });
+    </script>
+  </head>
+  <body>
+    <h1 id="qunit-header">fiber_chat Client Spec'</h1>
+    <h2 id="qunit-banner"></h2>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+  </body>
+</html>
