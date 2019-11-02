@@ -1,3 +1,5 @@
+_**NOTICE! This repo is very outdated and is no longer maintained.**_
+
 stubs.js
 ========
 _A stubbing object for JavaScript to make unit testing and TDD less painful._
